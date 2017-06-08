@@ -27,17 +27,18 @@ export class TutorialPage {
           {
             title: "Welcome to My Tag Trip!",
             description: "My Tag Trip lets you organize your cultural trip using tags entered by users",
-            image: 'assets/img/FirstIconSlide.png',
+            image: 'assets/img/hand-gesture.png',
           },
           {
             title: "Plan your trip",
             description: "Enter the city and choose the tags to plan your journey",
-            image: 'assets/img/ica-slidebox-img-2.png',
+            image: 'assets/img/005-map.png',
+            
           },
           {
             title: "Enter new tags",
             description: "Add new tags to points of interest to improve the experience",
-            image: 'assets/img/ica-slidebox-img-3.png',
+            image: 'assets/img/tag.png',
           }
         ];
   }
