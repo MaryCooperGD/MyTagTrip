@@ -21,34 +21,25 @@ export class TutorialPage {
   slides: Slide[];
   showSkip = true;
 
-  constructor(public navCtrl: NavController, public menu: MenuController, translate: TranslateService) {
-    translate.get(["TUTORIAL_SLIDE1_TITLE",
-      "TUTORIAL_SLIDE1_DESCRIPTION",
-      "TUTORIAL_SLIDE2_TITLE",
-      "TUTORIAL_SLIDE2_DESCRIPTION",
-      "TUTORIAL_SLIDE3_TITLE",
-      "TUTORIAL_SLIDE3_DESCRIPTION",
-    ]).subscribe(
-      (values) => {
-        console.log('Loaded values', values);
+  constructor(public navCtrl: NavController, public menu: MenuController) {
+
         this.slides = [
           {
-            title: values.TUTORIAL_SLIDE1_TITLE,
-            description: values.TUTORIAL_SLIDE1_DESCRIPTION,
-            image: 'assets/img/ica-slidebox-img-1.png',
+            title: "Welcome to My Tag Trip!",
+            description: "My Tag Trip lets you organize your cultural trip using tags entered by users",
+            image: 'assets/img/FirstIconSlide.png',
           },
           {
-            title: values.TUTORIAL_SLIDE2_TITLE,
-            description: values.TUTORIAL_SLIDE2_DESCRIPTION,
+            title: "Plan your trip",
+            description: "Enter the city and choose the tags to plan your journey",
             image: 'assets/img/ica-slidebox-img-2.png',
           },
           {
-            title: values.TUTORIAL_SLIDE3_TITLE,
-            description: values.TUTORIAL_SLIDE3_DESCRIPTION,
+            title: "Enter new tags",
+            description: "Add new tags to points of interest to improve the experience",
             image: 'assets/img/ica-slidebox-img-3.png',
           }
         ];
-      });
   }
 
   startApp() {
