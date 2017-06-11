@@ -3,8 +3,15 @@ import { NavController, ToastController } from 'ionic-angular';
 
 import { MainPage } from '../../pages/pages';
 import { User } from '../../providers/user';
+import { Api } from '../../providers/api';
+import { Observable } from 'rxjs/Observable';
 
 import { TranslateService } from '@ngx-translate/core';
+import { AngularFireDatabaseModule, AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
+import * as firebase from 'firebase/app';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/toPromise';
 
 
 @Component({
@@ -27,7 +34,8 @@ export class SignupPage {
   constructor(public navCtrl: NavController,
     public user: User,
     public toastCtrl: ToastController,
-    public translateService: TranslateService) {
+    public translateService: TranslateService,
+    public api : Api) {
 
     this.translateService.get('SIGNUP_ERROR').subscribe((value) => {
       this.signupErrorString = value;
@@ -36,19 +44,24 @@ export class SignupPage {
 
   doSignup() {
     // Attempt to login in through our User service
-    this.user.signup(this.account).subscribe((resp) => {
-      this.navCtrl.push(MainPage);
-    }, (err) => {
+    var result : any = this.api.doSignUp(this.account.email, this.account.password,this.account.name);
+    let res = Observable.fromPromise(result);
+    res.subscribe(res => {
+      if (res instanceof Error){
+        this.displayLoginError(res)
+      } else {
+          this.navCtrl.push(MainPage);
 
-      this.navCtrl.push(MainPage); // TODO: Remove this when you add your signup endpoint
+      }
+    })
+  }
 
-      // Unable to sign up
-      let toast = this.toastCtrl.create({
-        message: this.signupErrorString,
-        duration: 3000,
-        position: 'top'
-      });
-      toast.present();
+  displayLoginError(err :Error){
+    let toast = this.toastCtrl.create({
+      message: err.message,
+      duration: 3000,
+      position: 'top'
     });
+    toast.present();
   }
 }

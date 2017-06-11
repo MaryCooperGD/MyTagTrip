@@ -3,6 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule, Http } from '@angular/http';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { Storage, IonicStorageModule } from '@ionic/storage';
+import { AngularFireModule} from 'angularfire2';
+import { AngularFireDatabaseModule, AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
+import * as firebase from 'firebase/app';
+
 
 import { MyApp } from './app.component';
 
@@ -54,6 +59,16 @@ export function provideSettings(storage: Storage) {
     option4: 'Hello'
   });
 }
+
+export const firebaseConfig = {
+    apiKey: "AIzaSyCXv9XOpd2iAe6Cnc3Rd3QAmV3_JDFE4Ws",
+    authDomain: "mytagtrip.firebaseapp.com",
+    databaseURL: "https://mytagtrip.firebaseio.com",
+    projectId: "mytagtrip",
+    storageBucket: "mytagtrip.appspot.com",
+    messagingSenderId: "5428982894"
+  };
+
 
 
 /**
@@ -108,6 +123,9 @@ export function providers() {
   imports: [
     BrowserModule,
     HttpModule,
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

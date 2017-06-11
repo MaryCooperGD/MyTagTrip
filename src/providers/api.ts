@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions, URLSearchParams } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { AngularFireDatabaseModule, AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
+import * as firebase from 'firebase/app';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/observable/fromPromise';
 
 /**
  * Api is a generic REST Api handler. Set your API url first.
@@ -8,8 +13,8 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class Api {
   url: string = 'https://example.com/api/v1';
-
-  constructor(public http: Http) {
+  public user : firebase.User;
+  constructor(public http: Http, public afAuth: AngularFireAuth, public db: AngularFireDatabase) {
   }
 
   get(endpoint: string, params?: any, options?: RequestOptions) {
@@ -46,4 +51,44 @@ export class Api {
   patch(endpoint: string, body: any, options?: RequestOptions) {
     return this.http.put(this.url + '/' + endpoint, body, options);
   }
-}
+
+
+  //User management methods
+  //Api from firebase are used, which automatically handle login
+  //logout and other useful features
+  doLogin() {
+  return  this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
+      .then((any) => {
+        this.user = firebase.auth().currentUser;
+      },
+      (err) => {
+        return err;
+      });
+   }
+
+    doEmailPswLogin(email: string, password : string){
+       return firebase.auth().signInWithEmailAndPassword(email,password)
+        .then((any) => {
+          this.user = firebase.auth().currentUser;
+        },
+        (err) => {
+          return err;
+        });
+     }
+
+     doSignUp(email:string, password:string, username:string){
+       return firebase.auth().createUserWithEmailAndPassword(email,password)
+       .then((any) => {
+         firebase.auth().currentUser.updateProfile({
+           displayName : username,
+           photoURL: "https://i.imgflip.com/d0tb7.jpg"
+         })
+         this.user = firebase.auth().currentUser;
+       },
+        (err) => {
+          return err;
+        })
+     }
+
+
+  }
