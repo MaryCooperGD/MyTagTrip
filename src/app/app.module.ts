@@ -25,7 +25,9 @@ import { SignupPage } from '../pages/signup/signup';
 import { TabsPage } from '../pages/tabs/tabs';
 import { TutorialPage } from '../pages/tutorial/tutorial';
 import { WelcomePage } from '../pages/welcome/welcome';
-
+import { TagTripPage } from "../pages/tagtrip/tagtrip";
+import { ProfilePage } from "../pages/profile/profile";
+import { LogoutPage } from "../pages/logout/logout";
 import { Api } from '../providers/api';
 import { Items } from '../mocks/providers/items';
 import { Settings } from '../providers/settings';
@@ -91,7 +93,10 @@ let pages = [
   SignupPage,
   TabsPage,
   TutorialPage,
-  WelcomePage
+  WelcomePage,
+  TagTripPage,
+  ProfilePage,
+  LogoutPage
 ];
 
 export function declarations() {

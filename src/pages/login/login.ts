@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController } from 'ionic-angular';
+import { NavController, ToastController, MenuController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
 import { MainPage } from '../../pages/pages';
 import { MapPage } from '../map/map';
-
+import { TagTripPage } from "../tagtrip/tagtrip";
 import { User } from '../../providers/user';
 import { Api } from '../../providers/api';
 
@@ -35,20 +35,20 @@ export class LoginPage {
 
 email: any;
 password:any;
-  // Our translated text strings
+
   private loginErrorString: string;
 
   constructor(public navCtrl: NavController,
     public toastCtrl: ToastController,
     public translateService: TranslateService,
-    public api : Api) {
+    public api : Api, 
+    public menuCtrl: MenuController) {
 
-    this.translateService.get('LOGIN_ERROR').subscribe((value) => {
-      this.loginErrorString = value;
-    });
-  }
+   this.menuCtrl.enable(false);
 
-  // Attempt to login in through our User service
+    
+    }
+
   doLogin() {
     var result :any = this.api.doLogin();
     let res = Observable.fromPromise(result);
@@ -56,7 +56,7 @@ password:any;
       if (res instanceof Error){
         this.displayLoginError(res)
       } else {
-          this.navCtrl.push(MainPage);
+          this.navCtrl.push(TagTripPage);
       }
     })
 
@@ -70,7 +70,7 @@ password:any;
       if (res instanceof Error){
         this.displayLoginError(res)
       } else {
-          this.navCtrl.push(MapPage);
+          this.navCtrl.push(TagTripPage);
 
       }
     })

@@ -22,7 +22,6 @@ export class TutorialPage {
   showSkip = true;
 
   constructor(public navCtrl: NavController, public menu: MenuController) {
-
         this.slides = [
           {
             title: "Welcome to My Tag Trip!",
@@ -60,8 +59,7 @@ export class TutorialPage {
   }
 
   ionViewWillLeave() {
-    // enable the root left menu when leaving the tutorial page
-    this.menu.enable(true);
+
   }
 
 }

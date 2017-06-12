@@ -12,7 +12,7 @@
     <ion-list>
 
       <ion-item>
-        <ion-label fixed>{{ 'EMAIL' | translate }}</ion-label>
+        <ion-label fixed>Email</ion-label>
         <ion-input type="email" [(ngModel)]="email" name="email"></ion-input>
       </ion-item>
 
@@ -26,19 +26,19 @@
       -->
 
       <ion-item>
-        <ion-label fixed>{{ 'PASSWORD' | translate }}</ion-label>
+        <ion-label fixed>Password</ion-label>
         <ion-input type="password" [(ngModel)]="password" name="password"></ion-input>
       </ion-item>
 
 
       <div padding>
-        <button ion-button color="primary" block>Login with emailpsw</button>
+        <button ion-button color="primary" block>Login with email and password</button>
       </div>
 
     </ion-list>
   </form>
 
   <div padding>
-    <button ion-button color="primary" block onclick="doLogin()">Login with google</button>
+    <button ion-button color="primary" block onclick="doLogin()">Login with Google</button>
   </div>
 </ion-content>

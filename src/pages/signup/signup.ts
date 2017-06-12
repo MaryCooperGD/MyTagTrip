@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController } from 'ionic-angular';
+import { NavController, ToastController, MenuController } from 'ionic-angular';
 
 import { MainPage } from '../../pages/pages';
+import { TagTripPage } from '../tagtrip/tagtrip';
 import { User } from '../../providers/user';
 import { Api } from '../../providers/api';
 import { Observable } from 'rxjs/Observable';
@@ -35,11 +36,10 @@ export class SignupPage {
     public user: User,
     public toastCtrl: ToastController,
     public translateService: TranslateService,
-    public api : Api) {
+    public api : Api,
+    public menuCtrl: MenuController) {
 
-    this.translateService.get('SIGNUP_ERROR').subscribe((value) => {
-      this.signupErrorString = value;
-    })
+   this.menuCtrl.enable(false);
   }
 
   doSignup() {
@@ -50,7 +50,7 @@ export class SignupPage {
       if (res instanceof Error){
         this.displayLoginError(res)
       } else {
-          this.navCtrl.push(MainPage);
+          this.navCtrl.push(TagTripPage);
 
       }
     })

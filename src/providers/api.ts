@@ -90,5 +90,13 @@ export class Api {
         })
      }
 
+     doLogOut(){
+       return firebase.auth().signOut().then(function() {
+      
+      }).catch(function(error) {
+  // An error happened.
+      });
+    }
+
 
   }
