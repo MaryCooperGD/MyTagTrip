@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NavController, Platform, MenuController } from 'ionic-angular';
-
+import { Api } from '../../providers/api';
 import { GoogleMaps, GoogleMap, GoogleMapsEvent, LatLng, CameraPosition } from '@ionic-native/google-maps';
 
 declare var google: any;
@@ -10,11 +10,14 @@ declare var google: any;
   templateUrl: 'tagtrip.html'
 })
 export class TagTripPage {
-  
+  username:any;
   @ViewChild('map') map;
 
   constructor(private googleMaps: GoogleMaps, public navCtrl: NavController, public platform: Platform,
-  public menuCtrl : MenuController) { }
+  public menuCtrl : MenuController, public api:Api) { 
+        this.username = api.user.displayName
+
+  }
 
 
 
@@ -25,6 +28,10 @@ export class TagTripPage {
 
   ionViewDidLoad(){
     this.menuCtrl.enable(true)
+  }
+
+  getItems(searchbar) {
+  //search for cities on db
   }
   loadMap() {
     // make sure to create following structure in your view.html file

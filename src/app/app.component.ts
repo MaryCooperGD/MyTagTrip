@@ -21,7 +21,9 @@ import { TagTripPage } from "../pages/tagtrip/tagtrip";
 import { ProfilePage } from "../pages/profile/profile";
 import { LogoutPage } from "../pages/logout/logout";
 import { Settings } from '../providers/providers';
-
+import { CityPage } from "../pages/city/city";
+import { PoiPage } from "../pages/poi/poi";
+import { SearchpoiPage } from "../pages/searchpoi/searchpoi";
 import { TranslateService } from '@ngx-translate/core'
 
 @Component({
@@ -33,6 +35,7 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   pages: any[] = [
+    {title: 'Search P.O.I.', component: SearchpoiPage},
     { title: 'Profile', component: ProfilePage},
     { title: 'Logout', component: LogoutPage}
   ]

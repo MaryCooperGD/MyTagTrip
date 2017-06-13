@@ -11,6 +11,7 @@ import * as firebase from 'firebase/app';
 
 import { MyApp } from './app.component';
 
+import { SearchpoiPage } from "../pages/searchpoi/searchpoi";
 import { CardsPage } from '../pages/cards/cards';
 import { ContentPage } from '../pages/content/content';
 import { ItemCreatePage } from '../pages/item-create/item-create';
@@ -32,6 +33,9 @@ import { Api } from '../providers/api';
 import { Items } from '../mocks/providers/items';
 import { Settings } from '../providers/settings';
 import { User } from '../providers/user';
+import { CityPage } from "../pages/city/city";
+import { PoiPage } from "../pages/poi/poi";
+
 
 import { Camera } from '@ionic-native/camera';
 import { GoogleMaps } from '@ionic-native/google-maps';
@@ -96,7 +100,10 @@ let pages = [
   WelcomePage,
   TagTripPage,
   ProfilePage,
-  LogoutPage
+  LogoutPage,
+  SearchpoiPage,
+  CityPage,
+  PoiPage
 ];
 
 export function declarations() {

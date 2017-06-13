@@ -2,19 +2,21 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
 import { Api } from '../../providers/api';
 
-@IonicPage()
+
 @Component({
-  selector: 'page-profile',
-  templateUrl: 'profile.html',
+  selector: 'page-poi',
+  templateUrl: 'poi.html',
 })
-export class ProfilePage {
+export class PoiPage {
 
   username: any;
   photoURL: any;
+  poi: any;
   constructor(public navCtrl: NavController, public navParams: NavParams, public api: Api, 
   public menuCtrl: MenuController) {
         this.username = api.user.displayName
         this.photoURL = api.user.photoURL
+        this.poi = "Prova"
       //  var base64 = this.getBase64Image(document.getElementById("imageid"));
         
   }

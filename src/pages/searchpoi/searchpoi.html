@@ -1,0 +1,26 @@
+<ion-header>
+
+  <ion-toolbar>
+    <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+    <ion-title>Search Point of interest</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content>
+  <h3>Insert point of interest: </h3>
+  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+  <ion-item (click)="openPage()">
+    <h2> Prova </h2>
+    <h3> <!-- immagine del point of interest --> </h3>
+  </ion-item>
+  <ion-list>
+  <ion-item *ngFor="let poi of poiList" (click)="openPage()">
+    <h2> {{ poi.name }} </h2>
+    <h3> <!-- immagine del point of interest --> </h3>
+  </ion-item>
+</ion-list>
+</ion-content>
