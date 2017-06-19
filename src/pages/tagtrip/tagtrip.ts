@@ -28,7 +28,10 @@ export class TagTripPage {
 
   ionViewDidLoad(){
     this.menuCtrl.enable(true)
+    this.menuCtrl.close();
   }
+
+  
 
   getItems(searchbar) {
   //search for cities on db

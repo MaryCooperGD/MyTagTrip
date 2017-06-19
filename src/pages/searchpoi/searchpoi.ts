@@ -19,29 +19,42 @@ export class SearchpoiPage {
   public poiList:Array<any>;
   public loadedPoiList:Array<any>;
   public poiRef:firebase.database.Reference;
+  city:any;
+  cityname: any;
+  poiKey:any;
+  public keyss = [];
   constructor(public navCtrl: NavController, public navParams: NavParams, public items: Items) { 
 
-    this.poiRef = firebase.database().ref('/pois');
-
-    //creo la lista di points of interests
-    this.poiRef.on('value', poiList => {
+    this.city = navParams.get('reference')
+    this.cityname = this.city.name;
+    
     let pois = [];
-    poiList.forEach( poi => {
-      pois.push(poi.val());
-      return false;
-    });
+    let keys = [];
+    this.poiRef = firebase.database().ref('pois/');
 
-  this.poiList = pois;
+    this.poiRef.orderByChild("cityName").equalTo(this.cityname).on("child_added", function(snapshot) {
+      var poif = snapshot.val(); 
+       keys.push(snapshot.key);
+        if (snapshot.child("cityName").val()== navParams.get('reference').name){
+          pois.push(poif);
+        }
+    });
+  this.keyss = keys;
+  this.poiList = pois;  
   this.loadedPoiList = pois;
-});
+    
   }
 
   initializeItems(): void {
   this.poiList = this.loadedPoiList;
 }
 
-openPage(){
-  this.navCtrl.push(PoiPage);
+openPage(poi:any, index:any){
+  console.log('INDICE: ' + index);
+  this.navCtrl.push(PoiPage, {
+    poiSelected: poi,
+    poikey: this.keyss[index]
+  });
 }
 getItems(searchbar) {
   // Reset items back to all of the items

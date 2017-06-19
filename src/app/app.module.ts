@@ -35,7 +35,7 @@ import { Settings } from '../providers/settings';
 import { User } from '../providers/user';
 import { CityPage } from "../pages/city/city";
 import { PoiPage } from "../pages/poi/poi";
-
+import { SearchcityPage } from "../pages/searchcity/searchcity";
 
 import { Camera } from '@ionic-native/camera';
 import { GoogleMaps } from '@ionic-native/google-maps';
@@ -103,7 +103,8 @@ let pages = [
   LogoutPage,
   SearchpoiPage,
   CityPage,
-  PoiPage
+  PoiPage,
+  SearchcityPage
 ];
 
 export function declarations() {

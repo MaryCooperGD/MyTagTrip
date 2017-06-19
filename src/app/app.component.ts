@@ -25,6 +25,7 @@ import { CityPage } from "../pages/city/city";
 import { PoiPage } from "../pages/poi/poi";
 import { SearchpoiPage } from "../pages/searchpoi/searchpoi";
 import { TranslateService } from '@ngx-translate/core'
+import { SearchcityPage } from "../pages/searchcity/searchcity";
 
 @Component({
   templateUrl: 'app.html'
@@ -35,7 +36,8 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   pages: any[] = [
-    {title: 'Search P.O.I.', component: SearchpoiPage},
+    {title: 'Home', component: TagTripPage},
+    {title: 'Search P.O.I.', component: SearchcityPage},
     { title: 'Profile', component: ProfilePage},
     { title: 'Logout', component: LogoutPage}
   ]
