@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, Platform, MenuController } from 'ionic-angular';
+import { NavController, Platform, ToastController, MenuController } from 'ionic-angular';
 import { Api } from '../../providers/api';
-import { GoogleMaps, GoogleMap, GoogleMapsEvent, LatLng, CameraPosition } from '@ionic-native/google-maps';
+import { GoogleMaps, GoogleMap, GoogleMapsEvent, LatLng, CameraPosition,MarkerOptions, Marker } from '@ionic-native/google-maps';
 
 declare var google: any;
 
@@ -14,24 +14,27 @@ export class TagTripPage {
   @ViewChild('map') map;
 
   constructor(private googleMaps: GoogleMaps, public navCtrl: NavController, public platform: Platform,
-  public menuCtrl : MenuController, public api:Api) { 
+  public menuCtrl : MenuController, public api:Api, public toastCtrl: ToastController) {
         this.username = api.user.displayName
-
+        this.displayMapError("ConstructorWorking")
   }
 
 
 
 
   ngAfterViewInit() {
+    this.displayMapError("AfterviewInitWorking")
     this.loadMap();
   }
 
   ionViewDidLoad(){
     this.menuCtrl.enable(true)
     this.menuCtrl.close();
+    this.displayMapError("AfterviewInitWorking")
+    this.loadMap();
   }
 
-  
+
 
   getItems(searchbar) {
   //search for cities on db
@@ -50,7 +53,7 @@ export class TagTripPage {
 
     // listen to MAP_READY event
     // You must wait for this event to fire before adding something to the map or modifying it in anyway
-    map.one(GoogleMapsEvent.MAP_READY).then(() => console.log('Map is ready!'));
+    map.one(GoogleMapsEvent.MAP_READY).then(() => this.displayMapError("Mappa Caricata"));
 
     // create LatLng object
     let ionic: LatLng = new LatLng(43.0741904, -89.3809802);
@@ -66,16 +69,16 @@ export class TagTripPage {
     map.moveCamera(position);
 
     // create new marker
-    //  let markerOptions: MarkerOptions = {
-    //    position: ionic,
-    //    title: 'Ionic'
-    //  };
+     let markerOptions: MarkerOptions = {
+       position: ionic,
+       title: 'Ionic'
+     };
 
-    //  const marker: Marker = map.addMarker(markerOptions)
-    //    .then((marker: Marker) => {
-    //       marker.showInfoWindow();
-    //     });
-    //  }
+     map.addMarker(markerOptions)
+       .then((marker: Marker) => {
+          marker.showInfoWindow();
+        });
+
 
     // initJSMaps(mapEle) {
     //   new google.maps.Map(mapEle, {
@@ -112,5 +115,14 @@ export class TagTripPage {
     //   }
     // }
 
+  }
+
+  displayMapError(err :string){
+    let toast = this.toastCtrl.create({
+      message: err,
+      duration: 3000,
+      position: 'top'
+    });
+    toast.present();
   }
 }
