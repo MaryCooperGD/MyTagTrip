@@ -16,22 +16,18 @@ export class TagTripPage {
   constructor(private googleMaps: GoogleMaps, public navCtrl: NavController, public platform: Platform,
   public menuCtrl : MenuController, public api:Api, public toastCtrl: ToastController) {
         this.username = api.user.displayName
-        this.displayMapError("ConstructorWorking")
   }
 
 
 
 
   ngAfterViewInit() {
-    this.displayMapError("AfterviewInitWorking")
     this.loadMap();
   }
 
   ionViewDidLoad(){
     this.menuCtrl.enable(true)
     this.menuCtrl.close();
-    this.displayMapError("AfterviewInitWorking")
-    this.loadMap();
   }
 
 
@@ -53,31 +49,35 @@ export class TagTripPage {
 
     // listen to MAP_READY event
     // You must wait for this event to fire before adding something to the map or modifying it in anyway
-    map.one(GoogleMapsEvent.MAP_READY).then(() => this.displayMapError("Mappa Caricata"));
+    map.one(GoogleMapsEvent.MAP_READY).then(() => {
 
-    // create LatLng object
-    let ionic: LatLng = new LatLng(43.0741904, -89.3809802);
+      // create LatLng object
+      let ionic: LatLng = new LatLng(43.0741904, -89.3809802);
 
-    // create CameraPosition
-    let position: CameraPosition = {
-      target: ionic,
-      zoom: 18,
-      tilt: 30
-    };
+      // create CameraPosition
+      let position: CameraPosition = {
+        target: ionic,
+        zoom: 18,
+        tilt: 30
+      };
 
-    // move the map's camera to position
-    map.moveCamera(position);
+      // move the map's camera to position
+      map.moveCamera(position);
 
-    // create new marker
-     let markerOptions: MarkerOptions = {
-       position: ionic,
-       title: 'Ionic'
-     };
+      // create new marker
+       let markerOptions: MarkerOptions = {
+         position: ionic,
+         title: 'Ionic'
+       };
 
-     map.addMarker(markerOptions)
-       .then((marker: Marker) => {
-          marker.showInfoWindow();
-        });
+       map.addMarker(markerOptions)
+         .then((marker: Marker) => {
+            marker.showInfoWindow();
+          });
+
+    });
+
+
 
 
     // initJSMaps(mapEle) {
