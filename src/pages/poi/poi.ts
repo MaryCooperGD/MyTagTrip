@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
 import { Api } from '../../providers/api';
-
+import { AddtagPage } from "../addtag/addtag";
 import firebase from 'firebase';
 @Component({
   selector: 'page-poi',
@@ -17,6 +17,8 @@ export class PoiPage {
   public poiList:Array<any>;
   public loadedPoiList:Array<any>;
   public tags: Array<any> = [];
+  public tagsToSend: Array<any> = [];
+  public cityBack:any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public api: Api, 
   public menuCtrl: MenuController) {
@@ -27,7 +29,7 @@ export class PoiPage {
         this.name = this.poi.name 
         this.photoURL = this.poi.imageURL
         let tags1= [];
-
+        let tagsSend = [];
       var ref = firebase.database().ref('/pois/'+this.poiKey+'/tags/')
       var ref1 = firebase.database().ref('/tags/');
 
@@ -39,10 +41,24 @@ export class PoiPage {
         snapshot.forEach(function(childSnapshot){
          var childKey1 = childSnapshot.key;
          var childData1 = childSnapshot.val();
-         if(childKey == childKey1){
-           tags1.push(childData1.name)
+         
+         if(tagsSend.length!==0){ //creazione lista per visualizzazione in addtag
+          var exist = false;
+          tagsSend.forEach(tag=>{
+           if(tag.val().name == childSnapshot.val().name){
+             exist = true;
+            }
+         })
+         if (!exist){
+           tagsSend.push(childSnapshot);
          }
-         console.log('Chiave '+childKey + ' Valore '+childData1.name);
+        } else {//vettore vuoto (prima volta)
+           tagsSend.push(childSnapshot);
+         }
+                              
+         if(childKey == childKey1){ //lista di tag per il POI selezionato
+           tags1.push(childData1.name)
+         };
          return false
         });
       });
@@ -50,37 +66,9 @@ export class PoiPage {
       });
     });
    
-      /*ref.once("value")
-        .then(function(snapshot) { //Per prendere le chiavi dei tags
-          snapshot.forEach(tag1 =>{
-            //tags1.push(tag.key);
-            ref1.once("value").then(function(snapshot){
-              snapshot.forEach(tag => {
-                if(tag1 == tag){
-                  console.log(snapshot.child(tag.key+"/name").val());
-                } 
-              })
-            })
-          })         
-      });*/
-
-      /*this.tags = tags1;
-      console.log(this.tags.length);
-      ref = firebase.database().ref('/tags/');
-      ref.once("value").then(function(snapshot){
-        snapshot.forEach(tag => {
-          console.log(snapshot.child(tag.key+"/name").val());
-        })
-      })
-      this.tags.forEach(tag=>{
-        //ref.once("value").then(function(snapshot){
-          //var name = snapshot.child(tag).child("name").val();
-         // this.loadedPoiList.push(name);
-          console.log('nome tag '+tag);
-      //  })
-    });*/
     this.loadedPoiList = tags1;
     this.poiList = tags1;
+    this.tagsToSend = tagsSend;
     this.initializeItems();
   }
 
@@ -90,6 +78,15 @@ export class PoiPage {
 
   ionViewDidLoad() {
     this.menuCtrl.close();
+    this.initializeItems();
+  }
+
+  openAddTagPage(){
+    this.navCtrl.push(AddtagPage, {
+      recTags : this.tagsToSend,
+      poi: this.poi,
+      poiKey : this.poiKey
+    });
   }
 
   getBase64Image(img) {

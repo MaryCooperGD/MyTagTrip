@@ -1,0 +1,25 @@
+
+<ion-header>
+
+  <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+    <ion-title>Add new tag for {{poiName}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <h3>Add a new tag: </h3>
+  <ion-searchbar (ionInput)="getItems($event)" placeholder="Add tag ... "></ion-searchbar>
+  <ion-list>
+  <ion-item *ngFor="let tag of tagList">
+    <h2> {{ tag.name }} </h2>
+  </ion-item>
+</ion-list>
+<button ion-button [disabled]="!isEnabled" (click)="clickedButton()">Add tag</button>
+</ion-content>
+
+

@@ -22,14 +22,14 @@ export class SearchcityPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public items: Items,
   public menuCtrl: MenuController) { 
 
-    var tagData2 = {
+    /*var tagData2 = {
       name: "Open air"
     }
 
     var key = firebase.database().ref().child('tags').push().key;
     var updates = {};
     updates['/tags/'+key] = tagData2;
-    firebase.database().ref().update(updates);
+    firebase.database().ref().update(updates);*/
     /*var tagData = {
       name: "Fountain"
     }

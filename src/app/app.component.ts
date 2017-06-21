@@ -26,6 +26,8 @@ import { PoiPage } from "../pages/poi/poi";
 import { SearchpoiPage } from "../pages/searchpoi/searchpoi";
 import { TranslateService } from '@ngx-translate/core'
 import { SearchcityPage } from "../pages/searchcity/searchcity";
+import { AddtagPage } from "../pages/addtag/addtag";
+import { NewtagPage } from "../pages/newtag/newtag";
 
 @Component({
   templateUrl: 'app.html'

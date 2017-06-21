@@ -8,7 +8,7 @@ import { AngularFireDatabaseModule, AngularFireDatabase, FirebaseListObservable 
 import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 
-
+import { AddtagPage } from "../pages/addtag/addtag";
 import { MyApp } from './app.component';
 
 import { SearchpoiPage } from "../pages/searchpoi/searchpoi";
@@ -36,7 +36,7 @@ import { User } from '../providers/user';
 import { CityPage } from "../pages/city/city";
 import { PoiPage } from "../pages/poi/poi";
 import { SearchcityPage } from "../pages/searchcity/searchcity";
-
+import { NewtagPage } from "../pages/newtag/newtag";
 import { Camera } from '@ionic-native/camera';
 import { GoogleMaps } from '@ionic-native/google-maps';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -104,7 +104,9 @@ let pages = [
   SearchpoiPage,
   CityPage,
   PoiPage,
-  SearchcityPage
+  SearchcityPage,
+  AddtagPage,
+  NewtagPage
 ];
 
 export function declarations() {

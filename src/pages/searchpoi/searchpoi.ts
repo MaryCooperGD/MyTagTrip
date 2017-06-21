@@ -53,7 +53,8 @@ openPage(poi:any, index:any){
   console.log('INDICE: ' + index);
   this.navCtrl.push(PoiPage, {
     poiSelected: poi,
-    poikey: this.keyss[index]
+    poikey: this.keyss[index],
+    cityBack: this.city
   });
 }
 getItems(searchbar) {
