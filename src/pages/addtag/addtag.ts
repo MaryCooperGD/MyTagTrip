@@ -46,6 +46,9 @@ export class AddtagPage {
             }
           return false;
         })
+      }).then(a=>{
+        this.tagList = tagShow;
+      this.loadedTagList = tagShow;
       })
 
       this.tagList = tagShow;
@@ -64,6 +67,34 @@ export class AddtagPage {
 
   }
 
+  refreshList(){
+    var ref = firebase.database().ref('/pois/'+this.poiKey+'/tags/')
+      var ref1 = firebase.database().ref('/tags/');
+      let tagShow = [];
+      ref1.once('value', function(snapshot){ //ciclo sui tag
+        snapshot.forEach(function(childSnapshot){
+            var childKey = childSnapshot.key; //chiave tag
+            var exists = false;
+            ref.once('value', function(snapshot){
+              snapshot.forEach(function(childSnapshot){
+                var childKey1 = childSnapshot.key;
+                if (childKey == childKey1){ //se ne trovo uno uguale, eisste nella lista dei tag del poi
+                    exists = true;
+                }
+                return false;
+              })
+            })
+            if (!exists){
+              tagShow.push(childSnapshot);
+            }
+          return false;
+        })
+      }).then(a=>{
+        this.tagList = tagShow;
+      this.loadedTagList = tagShow;
+      })
+  }
+
   openAddNewTagPage(){
     this.navCtrl.push(NewtagPage, {
       poiSel : this.poiSelected,
@@ -77,15 +108,8 @@ export class AddtagPage {
    var updates = {};
   updates['/pois/'+ this.poiKey + '/tags/' + tagToAdd.key] = "true";
   firebase.database().ref().update(updates);
+  this.refreshList();
     this.presentToast();
-    /*this.navCtrl.pop();
-    
-    this.navCtrl.push(PoiPage, {
-      poiSelected: this.poiSelected,
-      poiKey: this.poiKey
-    })*/
-    //this.navCtrl.push(PoiPage);
-
 }
 
 initializeItems(): void {
