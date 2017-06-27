@@ -2,6 +2,10 @@ import { Component, ViewChild } from '@angular/core';
 import { NavController, Platform, ToastController, MenuController } from 'ionic-angular';
 import { Api } from '../../providers/api';
 import { GoogleMaps, GoogleMap, GoogleMapsEvent, LatLng, CameraPosition,MarkerOptions, Marker } from '@ionic-native/google-maps';
+import { Geolocation } from '@ionic-native/geolocation';
+import { Observable } from "rxjs/Observable";
+import { CitytripPage} from '../citytrip/citytrip';
+import 'rxjs/add/observable/of';
 
 declare var google: any;
 
@@ -12,9 +16,10 @@ declare var google: any;
 export class TagTripPage {
   username:any;
   @ViewChild('map') map;
+  userCurrentPosition: LatLng;
 
   constructor(private googleMaps: GoogleMaps, public navCtrl: NavController, public platform: Platform,
-  public menuCtrl : MenuController, public api:Api, public toastCtrl: ToastController) {
+  public menuCtrl : MenuController, public api:Api, public toastCtrl: ToastController,private geolocation: Geolocation) {
         this.username = api.user.displayName
   }
 
@@ -51,29 +56,32 @@ export class TagTripPage {
     // You must wait for this event to fire before adding something to the map or modifying it in anyway
     map.one(GoogleMapsEvent.MAP_READY).then(() => {
 
-      // create LatLng object
-      let ionic: LatLng = new LatLng(43.0741904, -89.3809802);
+      this.geolocation.getCurrentPosition().then((resp) => {
+        let currentPosition: LatLng = new LatLng(resp.coords.latitude, resp.coords.longitude);
+        this.userCurrentPosition = currentPosition;
+        let position: CameraPosition = {
+          target: currentPosition,
+          zoom: 18,
+          tilt: 30
+        };
 
-      // create CameraPosition
-      let position: CameraPosition = {
-        target: ionic,
-        zoom: 18,
-        tilt: 30
-      };
+        // move the map's camera to position
+        map.moveCamera(position);
 
-      // move the map's camera to position
-      map.moveCamera(position);
+        // create new marker
+         let markerOptions: MarkerOptions = {
+           position: currentPosition,
+           title: 'Your Position'
+         };
 
-      // create new marker
-       let markerOptions: MarkerOptions = {
-         position: ionic,
-         title: 'Ionic'
-       };
+         map.addMarker(markerOptions)
+           .then((marker: Marker) => {
+              marker.showInfoWindow();
+            });
 
-       map.addMarker(markerOptions)
-         .then((marker: Marker) => {
-            marker.showInfoWindow();
-          });
+      }).catch((error) => {
+        this.displayMapError(error.message)
+      });
 
     });
 
@@ -115,6 +123,12 @@ export class TagTripPage {
     //   }
     // }
 
+  }
+
+  planTrip(){
+    this.navCtrl.push(CitytripPage, {
+      reference: this.userCurrentPosition
+    });
   }
 
   displayMapError(err :string){

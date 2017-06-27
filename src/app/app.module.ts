@@ -39,6 +39,7 @@ import { SearchcityPage } from "../pages/searchcity/searchcity";
 import { NewtagPage } from "../pages/newtag/newtag";
 import { Camera } from '@ionic-native/camera';
 import { GoogleMaps } from '@ionic-native/google-maps';
+import { Geolocation } from '@ionic-native/geolocation';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
@@ -126,6 +127,7 @@ export function providers() {
     GoogleMaps,
     SplashScreen,
     StatusBar,
+    Geolocation,
 
     { provide: Settings, useFactory: provideSettings, deps: [Storage] },
     // Keep this to enable Ionic's runtime error handling during development
