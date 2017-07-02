@@ -72,6 +72,49 @@ export class PoiPage {
     this.initializeItems();
   }
 
+  refreshItems(){
+    let tags1= [];
+        let tagsSend = [];
+     var ref = firebase.database().ref('/pois/'+this.poiKey+'/tags/')
+      var ref1 = firebase.database().ref('/tags/');
+
+      ref.once('value', function(snapshot) {
+      snapshot.forEach(function(childSnapshot){
+         var childKey = childSnapshot.key;
+         var childData = childSnapshot.val();
+         ref1.once('value', function(snapshot) {
+        snapshot.forEach(function(childSnapshot){
+         var childKey1 = childSnapshot.key;
+         var childData1 = childSnapshot.val();
+         
+         if(tagsSend.length!==0){ //creazione lista per visualizzazione in addtag
+          var exist = false;
+          tagsSend.forEach(tag=>{
+           if(tag.val().name == childSnapshot.val().name){
+             exist = true;
+            }
+         })
+         if (!exist){
+           tagsSend.push(childSnapshot);
+         }
+        } else {//vettore vuoto (prima volta)
+           tagsSend.push(childSnapshot);
+         }
+                              
+         if(childKey == childKey1){ //lista di tag per il POI selezionato
+           tags1.push(childData1.name)
+         };
+         return false
+        });
+      });
+         return false  
+      });
+    });
+   
+    this.loadedPoiList = tags1;
+    this.poiList = tags1;
+    this.tagsToSend = tagsSend;
+  }
   initializeItems(): void {
   this.poiList = this.loadedPoiList;
 }
@@ -79,6 +122,10 @@ export class PoiPage {
   ionViewDidLoad() {
     this.menuCtrl.close();
     this.initializeItems();
+  }
+
+  ionViewWillEnter(){
+    this.refreshItems();
   }
 
   openAddTagPage(){

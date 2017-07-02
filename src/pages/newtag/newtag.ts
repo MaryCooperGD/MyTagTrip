@@ -16,6 +16,8 @@ export class NewtagPage {
   public poiKey:any;
   public isEnabled :boolean;
   public textSearch:any;
+
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public api: Api, 
   public menuCtrl: MenuController, public toastCtrl: ToastController) {
  
@@ -24,7 +26,7 @@ export class NewtagPage {
       this.poiKey = navParams.get('poiKey');
       var ref1 = firebase.database().ref('/tags/'); //prendo tutti i tag esistenti
 
-
+      
       //creo la lista di tag
        ref1.once('value', tagList => {
       let tags = [];
@@ -55,6 +57,23 @@ export class NewtagPage {
   firebase.database().ref().update(updates);
   
 
+}
+
+refreshItems():void{
+var ref1 = firebase.database().ref('/tags/'); //prendo tutti i tag esistenti
+
+
+      //creo la lista di tag
+       ref1.once('value', tagList => {
+      let tags = [];
+      tagList.forEach( poi => {
+        tags.push(poi.val());
+        return false;
+      });
+
+      this.tagList = tags;
+      this.loadedTagList = tags;
+    });
 }
 
 initializeItems(): void {
@@ -90,6 +109,8 @@ clickedButton(){
     updates['/pois/'+ this.poiKey + '/tags/' + key] = "true";
     firebase.database().ref().update(updates);
     this.presentToastOk();
+    this.refreshItems();
+    this.isEnabled = false;
   } else {
     this.presentToastWrong();
     
@@ -127,6 +148,8 @@ getItems(searchbar) {
 
  
 }
+
+
   getBase64Image(img) {
   var canvas = document.createElement("canvas");
   canvas.width = img.width;
