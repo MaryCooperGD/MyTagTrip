@@ -126,7 +126,8 @@ export class TagTripPage {
   }
 
   planTrip(){
-    this.navCtrl.push(CitytripPage, {
+    this.displayMapError ("entrato in plantrip") //questo funzione
+    this.navCtrl.push(CitytripPage, { //questo no!
       reference: this.userCurrentPosition
     });
   }

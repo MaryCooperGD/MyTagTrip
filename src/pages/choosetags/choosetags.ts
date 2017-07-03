@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { LoadingController } from 'ionic-angular';
 
 import { ItemDetailPage } from '../item-detail/item-detail';
 import { GoogleMaps, GoogleMap, GoogleMapsEvent, LatLng, CameraPosition,MarkerOptions, Marker } from '@ionic-native/google-maps';
 
 import { Item } from '../../models/item';
-import { PoiPage } from "../poi/poi";
+import { RouteDisplay } from "../routedisplaypage/routedisplaypage";
 import { Items } from '../../providers/providers';
 import firebase from 'firebase';
+
+declare var google: any;
 
 @Component({
   selector: 'page-choosetags',
@@ -17,6 +20,7 @@ export class ChoosetagsPage {
 
   selectedItems: Set<String>;
 
+  public loader: any;
   public tagList:Array<any>;
   public loadedTagList:Array<any>;
   public tagRef:firebase.database.Reference;
@@ -24,7 +28,12 @@ export class ChoosetagsPage {
   userCurrentPosition : LatLng;
 
   public keyss = [];
-  constructor(public navCtrl: NavController, public navParams: NavParams, public items: Items) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public items: Items, public loading: LoadingController) {
+
+    this.loader = loading.create({
+      content: 'Calculating route...'
+    });
+
     this.selectedItems = new Set<String>();
     this.city = navParams.get('reference')
     this.userCurrentPosition = navParams.get('coordinates')
@@ -50,13 +59,40 @@ export class ChoosetagsPage {
 }
 
 calculatePath(){
-  //wrong, see todo
-  this.navCtrl.push(PoiPage, {
-    selectedTags: this.selectedItems,
-    city: this.city
-  });
 
-//TODO first calculate the path and then push the page with the solution
+  var directionsService = new google.maps.DirectionsService();
+  var waypts = []
+  waypts.push({
+    location: 'Conad Romagna, Viale Carpi, Riccione, RN',
+    stopover: false
+  })
+  waypts.push({
+    location: 'Prodet, Viale Carpi, Riccione, RN',
+    stopover: false
+  })
+  var request ={
+    origin: this.userCurrentPosition,
+    destination: this.userCurrentPosition,
+    travelMode: 'WALKING' ,
+    waypoints : waypts,
+    optimizeWaypoints: true,
+  };
+
+
+  this.loader.present().then(() => {
+    directionsService.route(request, function(result, status) {
+      this.loader.dismiss()
+      if (status == 'OK') {
+        this.navCtrl.push(RouteDisplay, {
+          route: result
+        });
+      } else {
+        //TODO error!
+      }
+    });
+  })
+
+
 
 }
 
