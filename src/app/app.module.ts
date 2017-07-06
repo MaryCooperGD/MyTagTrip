@@ -29,6 +29,7 @@ import { WelcomePage } from '../pages/welcome/welcome';
 import { TagTripPage } from "../pages/tagtrip/tagtrip";
 import { ProfilePage } from "../pages/profile/profile";
 import { LogoutPage } from "../pages/logout/logout";
+import { CitytripPage} from '../pages/citytrip/citytrip';
 import { Api } from '../providers/api';
 import { Items } from '../mocks/providers/items';
 import { Settings } from '../providers/settings';
@@ -42,7 +43,7 @@ import { GoogleMaps } from '@ionic-native/google-maps';
 import { Geolocation } from '@ionic-native/geolocation';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-
+import { ChoosetagsPage } from '../pages/choosetags/choosetags';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
@@ -107,7 +108,9 @@ let pages = [
   PoiPage,
   SearchcityPage,
   AddtagPage,
-  NewtagPage
+  NewtagPage,
+  CitytripPage,
+  ChoosetagsPage
 ];
 
 export function declarations() {

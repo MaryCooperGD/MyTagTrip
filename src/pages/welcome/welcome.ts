@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, MenuController } from 'ionic-angular';
+import {App, NavController, MenuController } from 'ionic-angular';
 
 import { LoginPage } from '../login/login';
 import { SignupPage } from '../signup/signup';
@@ -16,8 +16,12 @@ import { SignupPage } from '../signup/signup';
 })
 export class WelcomePage {
 
-  constructor(public navCtrl: NavController, public menuCtrl:MenuController) { 
+  constructor(public _app: App, public navCtrl: NavController, public menuCtrl:MenuController) { 
     this.menuCtrl.enable(false);
+  }
+
+  ionViewDidEnter() {
+    this._app.setTitle("Welcome! Sign up or login")
   }
 
   login() {

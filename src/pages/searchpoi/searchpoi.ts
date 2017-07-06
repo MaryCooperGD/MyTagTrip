@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { App, NavController, NavParams } from 'ionic-angular';
 
 import { ItemDetailPage } from '../item-detail/item-detail';
 
@@ -23,7 +23,7 @@ export class SearchpoiPage {
   cityname: any;
   poiKey:any;
   public keyss = [];
-  constructor(public navCtrl: NavController, public navParams: NavParams, public items: Items) { 
+  constructor(public _app: App, public navCtrl: NavController, public navParams: NavParams, public items: Items) { 
 
     this.city = navParams.get('reference')
     this.cityname = this.city.name;
@@ -79,5 +79,9 @@ getItems(searchbar) {
     }
   });
 }
+
+ionViewDidEnter() {
+    this._app.setTitle("Search P.O.I.")
+  }
 
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, MenuController } from 'ionic-angular';
+import {App, NavController, NavParams, MenuController } from 'ionic-angular';
 
 import { GoogleMaps, GoogleMap, GoogleMapsEvent, LatLng, CameraPosition,MarkerOptions, Marker } from '@ionic-native/google-maps';
 import { ItemDetailPage } from '../item-detail/item-detail';
@@ -21,7 +21,7 @@ export class CitytripPage {
   public cityList:Array<any>;
   public loadedCityList:Array<any>;
   public cityRef:firebase.database.Reference;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public items: Items,
+  constructor(public _app: App, public navCtrl: NavController, public navParams: NavParams, public items: Items,
   public menuCtrl: MenuController) {
 
     this.cityRef = firebase.database().ref('/city/')
@@ -45,6 +45,9 @@ export class CitytripPage {
   initializeItems(): void {
   this.cityList = this.loadedCityList;
 }
+ionViewDidEnter() {
+    this._app.setTitle("Plan your trip")
+  }
 
 openPage(city:any){
   this.navCtrl.push(ChoosetagsPage, {

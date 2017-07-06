@@ -1,19 +1,20 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>{{ 'LOGIN_TITLE' | translate }}</ion-title>
+    <ion-title>Sign in</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content>
-  <form (submit)="doEmailPswLogin()">
+  
+  <form [formGroup]="signInForm" (submit)="doEmailPswLogin()">
     <ion-list>
 
       <ion-item>
         <ion-label fixed>Email</ion-label>
-        <ion-input type="email" [(ngModel)]="email" name="email"></ion-input>
+        <ion-input type="email" [(ngModel)]="email" formControlName="email"></ion-input>
       </ion-item>
 
       <!--
@@ -27,7 +28,7 @@
 
       <ion-item>
         <ion-label fixed>Password</ion-label>
-        <ion-input type="password" [(ngModel)]="password" name="password"></ion-input>
+        <ion-input type="password" [(ngModel)]="password" formControlName="password"></ion-input>
       </ion-item>
 
 

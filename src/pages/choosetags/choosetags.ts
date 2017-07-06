@@ -20,6 +20,7 @@ export class ChoosetagsPage {
 
   selectedItems: Set<String>;
 
+  public cityname: any;
   public loader: any;
   public tagList:Array<any>;
   public loadedTagList:Array<any>;
@@ -36,6 +37,7 @@ export class ChoosetagsPage {
 
     this.selectedItems = new Set<String>();
     this.city = navParams.get('reference')
+    this.cityname = this.city.name
     this.userCurrentPosition = navParams.get('coordinates')
 
     let tags = [];

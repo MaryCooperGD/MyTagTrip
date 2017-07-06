@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MenuController, NavController } from 'ionic-angular';
+import { App, MenuController, NavController } from 'ionic-angular';
 
 import { WelcomePage } from '../welcome/welcome';
 
@@ -21,7 +21,7 @@ export class TutorialPage {
   slides: Slide[];
   showSkip = true;
 
-  constructor(public navCtrl: NavController, public menu: MenuController) {
+  constructor(public navCtrl: NavController, public menu: MenuController, public _app:App) {
         this.slides = [
           {
             title: "Welcome to My Tag Trip!",
@@ -54,7 +54,7 @@ export class TutorialPage {
   }
 
   ionViewDidEnter() {
-    // the root left menu should be disabled on the tutorial page
+    this._app.setTitle("My Tag Trip")
     this.menu.enable(false);
   }
 

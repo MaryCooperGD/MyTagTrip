@@ -28,7 +28,8 @@ import { TranslateService } from '@ngx-translate/core'
 import { SearchcityPage } from "../pages/searchcity/searchcity";
 import { AddtagPage } from "../pages/addtag/addtag";
 import { NewtagPage } from "../pages/newtag/newtag";
-
+import { CitytripPage} from '../pages/citytrip/citytrip';
+import { ChoosetagsPage } from '../pages/choosetags/choosetags';
 @Component({
   templateUrl: 'app.html'
 })
@@ -40,8 +41,7 @@ export class MyApp {
   pages: any[] = [
     {title: 'Home', component: TagTripPage},
     {title: 'Search P.O.I.', component: SearchcityPage},
-    { title: 'Profile', component: ProfilePage},
-    { title: 'Logout', component: LogoutPage}
+    { title: 'Profile', component: ProfilePage}
   ]
 
   constructor(private translate: TranslateService, private platform: Platform, settings: Settings, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen) {

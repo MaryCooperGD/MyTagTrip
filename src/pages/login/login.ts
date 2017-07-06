@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController, MenuController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MainPage } from '../../pages/pages';
 import { MapPage } from '../map/map';
 import { TagTripPage } from "../tagtrip/tagtrip";
@@ -23,18 +23,12 @@ import 'rxjs/add/operator/toPromise';
   templateUrl: 'login.html'
 })
 export class LoginPage {
-  // The account fields for the login form.
-  // If you're using the username field with or without email, make
-  // sure to add it to the type
-  account: { email: string, password: string } = {
-    email: 'test@example.com',
-    password: 'test'
-  };
+  
 
   user: Observable<firebase.User>;
-
-email: any;
-password:any;
+  signInForm: FormGroup;
+  email: any;
+  password:any;
 
   private loginErrorString: string;
 
@@ -42,8 +36,13 @@ password:any;
     public toastCtrl: ToastController,
     public translateService: TranslateService,
     public api : Api, 
-    public menuCtrl: MenuController) {
+    public menuCtrl: MenuController,
+    public formBuilder: FormBuilder) {
 
+  this.signInForm = formBuilder.group({
+    password: ['', Validators.required],
+    email:['', Validators.required]
+})
    this.menuCtrl.enable(false);
 
     
@@ -54,7 +53,7 @@ password:any;
     let res = Observable.fromPromise(result);
     res.subscribe(res => {
       if (res instanceof Error){
-        this.displayLoginError(res)
+        this.displayLoginError(res.message)
       } else {
           this.navCtrl.push(TagTripPage);
       }
@@ -64,21 +63,27 @@ password:any;
   }
 
   doEmailPswLogin(){
+    if(!this.signInForm.valid){
+        this.displayLoginError("Please fill all the fields")
+    }
+     else {
     var result : any = this.api.doEmailPswLogin(this.email, this.password);
     let res = Observable.fromPromise(result);
     res.subscribe(res => {
       if (res instanceof Error){
-        this.displayLoginError(res)
+        this.displayLoginError(res.message)
       } else {
           this.navCtrl.push(TagTripPage);
 
       }
     })
+    }
+    
   }
 
-  displayLoginError(err :Error){
+  displayLoginError(messageErr:string){
     let toast = this.toastCtrl.create({
-      message: err.message,
+      message: messageErr,
       duration: 3000,
       position: 'top'
     });

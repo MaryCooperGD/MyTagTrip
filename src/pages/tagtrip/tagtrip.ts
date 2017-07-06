@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, Platform, ToastController, MenuController } from 'ionic-angular';
+import {App, NavController, Platform, ToastController, MenuController } from 'ionic-angular';
 import { Api } from '../../providers/api';
 import { GoogleMaps, GoogleMap, GoogleMapsEvent, LatLng, CameraPosition,MarkerOptions, Marker } from '@ionic-native/google-maps';
 import { Geolocation } from '@ionic-native/geolocation';
@@ -18,7 +18,7 @@ export class TagTripPage {
   @ViewChild('map') map;
   userCurrentPosition: LatLng;
 
-  constructor(private googleMaps: GoogleMaps, public navCtrl: NavController, public platform: Platform,
+  constructor(public _app: App , private googleMaps: GoogleMaps, public navCtrl: NavController, public platform: Platform,
   public menuCtrl : MenuController, public api:Api, public toastCtrl: ToastController,private geolocation: Geolocation) {
         this.username = api.user.displayName
   }
@@ -35,7 +35,9 @@ export class TagTripPage {
     this.menuCtrl.close();
   }
 
-
+ionViewDidEnter() {
+    this._app.setTitle("Home")
+  }
 
   getItems(searchbar) {
   //search for cities on db
