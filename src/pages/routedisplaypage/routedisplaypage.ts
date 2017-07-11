@@ -15,7 +15,7 @@ declare var google: any;
 })
 export class RouteDisplay {
 
-  @ViewChild('map') map;
+  @ViewChild('mappa') map;
   public route : any;
 
   constructor(private googleMaps: GoogleMaps, public navCtrl: NavController, public platform: Platform,
@@ -25,7 +25,9 @@ export class RouteDisplay {
   }
 
   ngAfterViewInit() {
-    this.loadMap();
+    setTimeout(() => {
+      this.loadMap()
+    },1000)
   }
 
   ionViewDidLoad(){
@@ -41,7 +43,7 @@ export class RouteDisplay {
     // </ion-content>
 
     // create a new map by passing HTMLElement
-    let element: HTMLElement = document.getElementById('map');
+    let element: HTMLElement = document.getElementById('mappa');
     let map: GoogleMap = this.googleMaps.create(element);
     var directionsDisplay = new google.maps.DirectionsRenderer();
     directionsDisplay.setMap(map)

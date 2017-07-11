@@ -27,7 +27,9 @@ export class TagTripPage {
 
 
   ngAfterViewInit() {
-    this.loadMap();
+    setTimeout(() => {
+      this.loadMap()
+    },1000)
   }
 
   ionViewDidLoad(){
