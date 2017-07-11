@@ -43,6 +43,9 @@ ionViewDidEnter() {
   //search for cities on db
   }
   loadMap() {
+
+
+
     // make sure to create following structure in your view.html file
     // and add a height (for example 100%) to it, else the map won't be visible
     // <ion-content>

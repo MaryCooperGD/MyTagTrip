@@ -30,6 +30,7 @@ import { AddtagPage } from "../pages/addtag/addtag";
 import { NewtagPage } from "../pages/newtag/newtag";
 import { CitytripPage} from '../pages/citytrip/citytrip';
 import { ChoosetagsPage } from '../pages/choosetags/choosetags';
+import { RouteDisplay } from "../pages/routedisplaypage/routedisplaypage";
 @Component({
   templateUrl: 'app.html'
 })

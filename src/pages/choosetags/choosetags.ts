@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-import { LoadingController } from 'ionic-angular';
+import { NavController, NavParams,ToastController } from 'ionic-angular';
+import { LoadingController, Loading } from 'ionic-angular';
 
 import { ItemDetailPage } from '../item-detail/item-detail';
 import { GoogleMaps, GoogleMap, GoogleMapsEvent, LatLng, CameraPosition,MarkerOptions, Marker } from '@ionic-native/google-maps';
@@ -21,7 +21,7 @@ export class ChoosetagsPage {
   selectedItems: Set<String>;
 
   public cityname: any;
-  public loader: any;
+  public loader: Loading;
   public tagList:Array<any>;
   public loadedTagList:Array<any>;
   public tagRef:firebase.database.Reference;
@@ -29,10 +29,12 @@ export class ChoosetagsPage {
   userCurrentPosition : LatLng;
 
   public keyss = [];
-  constructor(public navCtrl: NavController, public navParams: NavParams, public items: Items, public loading: LoadingController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public items: Items, public loading: LoadingController
+  ,public toastCtrl: ToastController) {
 
-    this.loader = loading.create({
-      content: 'Calculating route...'
+   this.loader = loading.create({
+      content: 'Calculating route...',
+      dismissOnPageChange: true
     });
 
     this.selectedItems = new Set<String>();
@@ -73,23 +75,24 @@ calculatePath(){
     stopover: false
   })
   var request ={
-    origin: this.userCurrentPosition,
-    destination: this.userCurrentPosition,
-    travelMode: 'WALKING' ,
+    origin: {lat: 44.007193, lng: 12.6500083},
+    destination: {lat: 44.007193, lng: 12.6500083},
+    travelMode: google.maps.TravelMode.WALKING ,
     waypoints : waypts,
     optimizeWaypoints: true,
   };
 
 
   this.loader.present().then(() => {
+    var self = this
     directionsService.route(request, function(result, status) {
-      this.loader.dismiss()
+    self.loader.dismiss()
       if (status == 'OK') {
-        this.navCtrl.push(RouteDisplay, {
+        self.navCtrl.push(RouteDisplay, {
           route: result
         });
       } else {
-        //TODO error!
+       this.displayError(status.string)
       }
     });
   })
@@ -127,6 +130,15 @@ getItems(searchbar) {
       return false;
     }
   });
+}
+
+displayError(err :string){
+  let toast = this.toastCtrl.create({
+    message: err,
+    duration: 3000,
+    position: 'top'
+  });
+  toast.present();
 }
 
 }

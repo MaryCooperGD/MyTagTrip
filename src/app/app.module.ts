@@ -11,6 +11,7 @@ import * as firebase from 'firebase/app';
 import { AddtagPage } from "../pages/addtag/addtag";
 import { MyApp } from './app.component';
 
+import { RouteDisplay } from "../pages/routedisplaypage/routedisplaypage";
 import { SearchpoiPage } from "../pages/searchpoi/searchpoi";
 import { CardsPage } from '../pages/cards/cards';
 import { ContentPage } from '../pages/content/content';
@@ -110,7 +111,8 @@ let pages = [
   AddtagPage,
   NewtagPage,
   CitytripPage,
-  ChoosetagsPage
+  ChoosetagsPage,
+  RouteDisplay
 ];
 
 export function declarations() {
