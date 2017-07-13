@@ -5,6 +5,7 @@ import { LoadingController, Loading } from 'ionic-angular';
 import { ItemDetailPage } from '../item-detail/item-detail';
 import { GoogleMaps, GoogleMap, GoogleMapsEvent, LatLng, CameraPosition,MarkerOptions, Marker } from '@ionic-native/google-maps';
 
+import {TagTripPage} from '../tagtrip/tagtrip'
 import { Item } from '../../models/item';
 import { RouteDisplay } from "../routedisplaypage/routedisplaypage";
 import { Items } from '../../providers/providers';
@@ -88,9 +89,10 @@ calculatePath(){
     directionsService.route(request, function(result, status) {
     self.loader.dismiss()
       if (status == 'OK') {
-        self.navCtrl.push(RouteDisplay, {
-          route: result
-        });
+          self.navCtrl.setRoot(TagTripPage, {route: result}, {
+          animate: true,
+          direction: 'forward'
+      });
       } else {
        this.displayError(status.string)
       }

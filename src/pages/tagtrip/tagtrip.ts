@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import {App, NavController, Platform, ToastController, MenuController } from 'ionic-angular';
+import {App, NavController, Platform, ToastController, MenuController, NavParams } from 'ionic-angular';
 import { Api } from '../../providers/api';
 import { GoogleMaps, GoogleMap, GoogleMapsEvent, LatLng, CameraPosition,MarkerOptions, Marker } from '@ionic-native/google-maps';
 import { Geolocation } from '@ionic-native/geolocation';
@@ -17,10 +17,12 @@ export class TagTripPage {
   username:any;
   @ViewChild('map') map;
   userCurrentPosition: LatLng;
+  directions: any;
 
   constructor(public _app: App , private googleMaps: GoogleMaps, public navCtrl: NavController, public platform: Platform,
-  public menuCtrl : MenuController, public api:Api, public toastCtrl: ToastController,private geolocation: Geolocation) {
+  public menuCtrl : MenuController, public api:Api, public toastCtrl: ToastController,private geolocation: Geolocation,public navParams: NavParams) {
         this.username = api.user.displayName
+        this.directions = navParams.get('route')
   }
 
 
@@ -59,38 +61,50 @@ ionViewDidEnter() {
 
     let map: GoogleMap = this.googleMaps.create(element);
 
-    // listen to MAP_READY event
-    // You must wait for this event to fire before adding something to the map or modifying it in anyway
-    map.one(GoogleMapsEvent.MAP_READY).then(() => {
+    if(this.directions == null){
+      // listen to MAP_READY event
+      // You must wait for this event to fire before adding something to the map or modifying it in anyway
+      map.one(GoogleMapsEvent.MAP_READY).then(() => {
+        this.geolocation.getCurrentPosition().then((resp) => {
+          let currentPosition: LatLng = new LatLng(resp.coords.latitude, resp.coords.longitude);
+          this.userCurrentPosition = currentPosition;
+          let position: CameraPosition = {
+            target: currentPosition,
+            zoom: 18,
+            tilt: 30
+          };
 
-      this.geolocation.getCurrentPosition().then((resp) => {
-        let currentPosition: LatLng = new LatLng(resp.coords.latitude, resp.coords.longitude);
-        this.userCurrentPosition = currentPosition;
-        let position: CameraPosition = {
-          target: currentPosition,
-          zoom: 18,
-          tilt: 30
-        };
+          // move the map's camera to position
+          map.moveCamera(position);
 
-        // move the map's camera to position
-        map.moveCamera(position);
+          // create new marker
+           let markerOptions: MarkerOptions = {
+             position: currentPosition,
+             title: 'Your Position'
+           };
 
-        // create new marker
-         let markerOptions: MarkerOptions = {
-           position: currentPosition,
-           title: 'Your Position'
-         };
+           map.addMarker(markerOptions)
+             .then((marker: Marker) => {
+                marker.showInfoWindow();
+              });
 
-         map.addMarker(markerOptions)
-           .then((marker: Marker) => {
-              marker.showInfoWindow();
-            });
+        }).catch((error) => {
+          this.displayMapError(error.message)
+        });
 
-      }).catch((error) => {
-        this.displayMapError(error.message)
       });
+    } else {
+      var directionsDisplay = new google.maps.DirectionsRenderer();
+      directionsDisplay.setMap(map)
+      this.displayMapError('ROUTE')
 
-    });
+      // listen to MAP_READY event
+      // You must wait for this event to fire before adding something to the map or modifying it in anyway
+      map.one(GoogleMapsEvent.MAP_READY).then(() => {
+        directionsDisplay.setDirections(this.directions)
+      });
+    }
+
 
 
 
@@ -133,8 +147,7 @@ ionViewDidEnter() {
   }
 
   planTrip(){
-    this.displayMapError ("entrato in plantrip") //questo funzione
-    this.navCtrl.push(CitytripPage, { //questo no!
+    this.navCtrl.push(CitytripPage, {
       reference: this.userCurrentPosition
     });
   }
