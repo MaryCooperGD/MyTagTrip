@@ -69,11 +69,11 @@ calculatePath(){
   var waypts = []
   waypts.push({
     location: 'Conad Romagna, Viale Carpi, Riccione, RN',
-    stopover: false
+    stopover: true
   })
   waypts.push({
     location: 'Prodet, Viale Carpi, Riccione, RN',
-    stopover: false
+    stopover: true
   })
   var request ={
     origin: {lat: 44.007193, lng: 12.6500083},
@@ -86,9 +86,15 @@ calculatePath(){
 
   this.loader.present().then(() => {
     var self = this
+    self.navCtrl.setRoot(TagTripPage, {route:request}, {
+          animate: true,
+          direction: 'forward'
+      });
+    /*var self = this
     directionsService.route(request, function(result, status) {
     self.loader.dismiss()
       if (status == 'OK') {
+        
           self.navCtrl.setRoot(TagTripPage, {route: result}, {
           animate: true,
           direction: 'forward'
@@ -96,7 +102,7 @@ calculatePath(){
       } else {
        this.displayError(status.string)
       }
-    });
+    });*/
   })
 
 

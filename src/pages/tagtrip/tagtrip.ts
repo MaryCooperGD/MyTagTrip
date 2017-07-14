@@ -94,10 +94,11 @@ ionViewDidEnter() {
 
       });
     } else {
+      var directionsService = new google.maps.DirectionsService();
       var directionsDisplay = new google.maps.DirectionsRenderer();
       directionsDisplay.setMap(map)
       this.displayMapError('ROUTE')
-
+      
       // listen to MAP_READY event
       // You must wait for this event to fire before adding something to the map or modifying it in anyway
       map.one(GoogleMapsEvent.MAP_READY).then(() => {
